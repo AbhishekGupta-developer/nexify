@@ -82,6 +82,17 @@ public class UserServiceImpl implements UserService{
 
         return userResponseDto;
     }
+    
+    // Map UserRequestDto to User
+    private User mapUserRequestDtoToUser(UserRequestDto userRequestDto, User user) {
+        user.setName(userRequestDto.getName());
+        user.setEmail(userRequestDto.getEmail());
+        user.setUsername(userRequestDto.getUsername());
+        user.setPassword(userRequestDto.getPassword());
+        user.setGender(userRequestDto.getGender());
+        
+        return user;
+    }
 }
 
 
