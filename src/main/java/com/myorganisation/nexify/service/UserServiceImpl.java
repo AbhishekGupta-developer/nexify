@@ -61,6 +61,20 @@ public class UserServiceImpl implements UserService{
     public GenericResponseDto removeUser(Long id) {
         return null;
     }
+    
+    // Helper methods
+    
+    // Map User to UserResponseDto
+    private UserResponseDto mapUserToUserResponseDto(User user) {
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setId(user.getId());
+        userResponseDto.setName(user.getName());
+        userResponseDto.setEmail(user.getEmail());
+        userResponseDto.setUsername(user.getUsername());
+        userResponseDto.setGender(user.getGender());
+
+        return userResponseDto;
+    }
 }
 
 
