@@ -8,7 +8,6 @@ import com.myorganisation.nexify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService{
     }
 
     // Helper methods
-    
+
     // Map User to UserResponseDto
     private UserResponseDto mapUserToUserResponseDto(User user) {
         UserResponseDto userResponseDto = new UserResponseDto();
@@ -87,7 +86,7 @@ public class UserServiceImpl implements UserService{
 
         return userResponseDto;
     }
-    
+
     // Map UserRequestDto to User
     private User mapUserRequestDtoToUser(UserRequestDto userRequestDto, User user) {
         user.setName(userRequestDto.getName());
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService{
         user.setUsername(userRequestDto.getUsername());
         user.setPassword(userRequestDto.getPassword());
         user.setGender(userRequestDto.getGender());
-        
+
         return user;
     }
 }
