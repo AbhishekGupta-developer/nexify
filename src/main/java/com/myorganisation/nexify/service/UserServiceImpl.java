@@ -55,7 +55,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
-        return null;
+        User user = userRepository.userMap.get(id);
+
+        if(user != null) {
+            mapUserRequestDtoToUser(userRequestDto, user);
+            userRepository.userMap.put(id, user);
+
+            user = userRepository.userMap.get(id);
+
+            return mapUserToUserResponseDto(user);
+        } else {
+            return null;
+        }
     }
 
     @Override
