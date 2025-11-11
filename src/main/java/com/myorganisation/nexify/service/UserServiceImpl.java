@@ -32,14 +32,7 @@ public class UserServiceImpl implements UserService{
 
         user = userRepository.userMap.get(userId);
 
-        UserResponseDto userResponseDto = new UserResponseDto();
-        userResponseDto.setId(user.getId());
-        userResponseDto.setName(user.getName());
-        userResponseDto.setEmail(user.getEmail());
-        userResponseDto.setUsername(user.getUsername());
-        userResponseDto.setGender(user.getGender());
-
-        return userResponseDto;
+        return mapUserToUserResponseDto(user);
     }
 
     @Override
