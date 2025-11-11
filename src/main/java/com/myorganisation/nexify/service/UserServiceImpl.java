@@ -22,13 +22,7 @@ public class UserServiceImpl implements UserService{
     public UserResponseDto registerUser(UserRequestDto userRequestDto) {
         Long userId = userRepository.generateUserId();
 
-        User user = new User();
-        user.setId(userId);
-        user.setName(userRequestDto.getName());
-        user.setEmail(userRequestDto.getEmail());
-        user.setUsername(userRequestDto.getUsername());
-        user.setPassword(userRequestDto.getPassword());
-        user.setGender(userRequestDto.getGender());
+        User user = mapUserRequestDtoToUser(userRequestDto, new User());
 
         userRepository.userMap.put(userId, user);
 
