@@ -70,7 +70,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public GenericResponseDto removeUser(Long id) {
-        return null;
+        User user = userRepository.userMap.get(id);
+        GenericResponseDto genericResponseDto = new GenericResponseDto();
+        if(user != null) {
+            userRepository.userMap.remove(id);
+            String name = user.getName();
+            genericResponseDto.setSuccess(true);
+            genericResponseDto.setMessage("User name: " + name + "(" + id + ") has been removed successfully");
+        } else {
+            genericResponseDto.setSuccess(false);
+            genericResponseDto.setMessage("User doesn't exist");
+        }
+
+        return genericResponseDto;
     }
 
     // Helper methods
