@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService{
         Long userId = userRepository.generateUserId();
 
         User user = mapUserRequestDtoToUser(userRequestDto, new User());
+        user.setId(userId);
 
         userRepository.userMap.put(userId, user);
 
