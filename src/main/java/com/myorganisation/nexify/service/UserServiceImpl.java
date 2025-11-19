@@ -19,21 +19,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDto registerUser(UserRequestDto userRequestDto) {
-        Long userId = userRepository.generateUserId();
-
         User user = mapUserRequestDtoToUser(userRequestDto, new User());
-        user.setId(userId);
-
-        userRepository.userMap.put(userId, user);
-
-        user = userRepository.userMap.get(userId);
+        userRepository.save(user);
 
         return mapUserToUserResponseDto(user);
     }
 
     @Override
     public UserResponseDto getUser(Long id) {
-        User user = userRepository.userMap.get(id);
+        User user = userRepository.findById(id).orElse(null);
         if(user != null) {
             return mapUserToUserResponseDto(user);
         } else {
@@ -43,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserResponseDto> getAllUsers() {
-        List<User> userList = new LinkedList<>(userRepository.userMap.values());
+        List<User> userList = userRepository.findAll();
         List<UserResponseDto> userResponseDtoList = new LinkedList<>();
 
         for(User user : userList) {
@@ -55,14 +49,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
-        User user = userRepository.userMap.get(id);
+        User user = userRepository.findById(id).orElse(null);
 
         if(user != null) {
             mapUserRequestDtoToUser(userRequestDto, user);
-            userRepository.userMap.put(id, user);
-
-            user = userRepository.userMap.get(id);
-
+            userRepository.save(user);
             return mapUserToUserResponseDto(user);
         } else {
             return null;
@@ -71,11 +62,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public GenericResponseDto removeUser(Long id) {
-        User user = userRepository.userMap.get(id);
+        User user = userRepository.findById(id).orElse(null);
         GenericResponseDto genericResponseDto = new GenericResponseDto();
         if(user != null) {
-            userRepository.userMap.remove(id);
             String name = user.getName();
+            userRepository.deleteById(id);
             genericResponseDto.setSuccess(true);
             genericResponseDto.setMessage("User name: " + name + "(" + id + ") has been removed successfully");
         } else {
@@ -111,23 +102,3 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
