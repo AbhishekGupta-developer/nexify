@@ -43,4 +43,14 @@ public class UserController {
         return new ResponseEntity<>(userService.removeUser(id), HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("/search/username/{username}")
+    public ResponseEntity<UserResponseDto> searchUserByUsername(@PathVariable String username) {
+        return new ResponseEntity<>(userService.searchUserByUsername(username), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/global")
+    public ResponseEntity<List<UserResponseDto>> searchGlobalUser(@RequestParam String q) {
+        return new ResponseEntity<>(userService.searchByUsernameContaining(q), HttpStatusCode.valueOf(200));
+    }
+
 }
