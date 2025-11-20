@@ -12,4 +12,7 @@ public interface UserService {
     List<UserResponseDto> getAllUsers();
     UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
     GenericResponseDto removeUser(Long id);
+
+    UserResponseDto searchUserByUsername(String username);
+    List<UserResponseDto> searchByUsernameContaining(String username);
 }
