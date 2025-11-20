@@ -77,6 +77,30 @@ public class UserServiceImpl implements UserService{
         return genericResponseDto;
     }
 
+    @Override
+    public UserResponseDto searchUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+
+        if(user != null) {
+            return mapUserToUserResponseDto(user);
+        } else {
+            return null;
+        }
+
+    }
+
+    @Override
+    public List<UserResponseDto> searchByUsernameContaining(String username) {
+        List<User> userList = userRepository.findByUsernameContaining(username);
+        List<UserResponseDto> userResponseDtoList = new LinkedList<>();
+
+        for(User user : userList) {
+            userResponseDtoList.add(mapUserToUserResponseDto(user));
+        }
+
+        return userResponseDtoList;
+    }
+
     // Helper methods
 
     // Map User to UserResponseDto
