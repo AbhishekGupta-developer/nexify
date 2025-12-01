@@ -15,4 +15,6 @@ public interface UserService {
 
     UserResponseDto searchUserByUsername(String username);
     List<UserResponseDto> searchByUsernameContaining(String username);
+
+    List<UserResponseDto> getUsersByName(String name);
 }
