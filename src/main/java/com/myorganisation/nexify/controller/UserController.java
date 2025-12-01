@@ -48,6 +48,11 @@ public class UserController {
         return new ResponseEntity<>(userService.searchUserByUsername(username), HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("/search/name/{name}")
+    public ResponseEntity<List<UserResponseDto>> searchUserByName(@PathVariable String name) {
+        return  new ResponseEntity<>(userService.getUsersByName(name), HttpStatusCode.valueOf(200));
+    }
+
     @GetMapping("/search/global")
     public ResponseEntity<List<UserResponseDto>> searchGlobalUser(@RequestParam String q) {
         return new ResponseEntity<>(userService.searchByUsernameContaining(q), HttpStatusCode.valueOf(200));
