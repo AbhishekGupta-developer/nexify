@@ -101,6 +101,18 @@ public class UserServiceImpl implements UserService{
         return userResponseDtoList;
     }
 
+    @Override
+    public List<UserResponseDto> getUsersByName(String name) {
+        List<User> userList = userRepository.findByName(name);
+        List<UserResponseDto> userResponseDtoList = new LinkedList<>();
+
+        for(User user : userList) {
+            userResponseDtoList.add(mapUserToUserResponseDto(user));
+        }
+
+        return userResponseDtoList;
+    }
+
     // Helper methods
 
     // Map User to UserResponseDto
