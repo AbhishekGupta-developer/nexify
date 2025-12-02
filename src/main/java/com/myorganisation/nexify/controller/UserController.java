@@ -3,6 +3,7 @@ package com.myorganisation.nexify.controller;
 import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
+import com.myorganisation.nexify.enums.Gender;
 import com.myorganisation.nexify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -56,6 +57,11 @@ public class UserController {
     @GetMapping("/search/global")
     public ResponseEntity<List<UserResponseDto>> searchGlobalUser(@RequestParam String q) {
         return new ResponseEntity<>(userService.searchByUsernameContaining(q), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/name/{name}/gender/{gender}")
+    public ResponseEntity<List<UserResponseDto>> searchUserByNameAndGender(@PathVariable String name, @PathVariable Gender gender, @RequestParam String type) {
+        return new ResponseEntity<>(userService.searchByNameAndGender(name, gender, type), HttpStatusCode.valueOf(200));
     }
 
 }
