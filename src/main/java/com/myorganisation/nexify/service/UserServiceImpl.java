@@ -3,6 +3,7 @@ package com.myorganisation.nexify.service;
 import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
+import com.myorganisation.nexify.enums.Gender;
 import com.myorganisation.nexify.model.User;
 import com.myorganisation.nexify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,25 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserResponseDto> getUsersByName(String name) {
         List<User> userList = userRepository.findByName(name);
+        List<UserResponseDto> userResponseDtoList = new LinkedList<>();
+
+        for(User user : userList) {
+            userResponseDtoList.add(mapUserToUserResponseDto(user));
+        }
+
+        return userResponseDtoList;
+    }
+
+    @Override
+    public List<UserResponseDto> searchByNameAndGender(String name, Gender gender, String type) {
+        List<User> userList = null;
+
+        if(type.equalsIgnoreCase("sql")) {
+            userList = userRepository.searchByNameAndGenderUsingSql(name, gender.name());
+        } else if(type.equalsIgnoreCase("jpql")) {
+            userList = userRepository.searchByNameAndGender(name, gender);
+        }
+
         List<UserResponseDto> userResponseDtoList = new LinkedList<>();
 
         for(User user : userList) {
