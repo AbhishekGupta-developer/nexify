@@ -3,6 +3,7 @@ package com.myorganisation.nexify.service;
 import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
+import com.myorganisation.nexify.enums.Gender;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface UserService {
     List<UserResponseDto> searchByUsernameContaining(String username);
 
     List<UserResponseDto> getUsersByName(String name);
+
+    List<UserResponseDto> searchByNameAndGender(String name, Gender gender, String type);
 }
