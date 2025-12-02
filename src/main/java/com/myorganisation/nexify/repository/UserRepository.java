@@ -19,4 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // JPQL
     @Query("SELECT u FROM User u WHERE u.name = :name AND u.gender = :gender")
     List<User> searchByNameAndGender(@Param("name") String name, @Param("gender") Gender gender);
+
+    // Native Query - SQL
+    @Query(value = "SELECT * FROM users u WHERE u.name = :name AND u.gender = :gender", nativeQuery = true)
+    List<User> searchByNameAndGenderUsingSql(@Param("name") String name, @Param("gender") String gender);
 }
