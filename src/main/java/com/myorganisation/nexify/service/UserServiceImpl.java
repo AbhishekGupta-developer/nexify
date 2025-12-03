@@ -4,7 +4,9 @@ import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
 import com.myorganisation.nexify.enums.Gender;
+import com.myorganisation.nexify.model.Profile;
 import com.myorganisation.nexify.model.User;
+import com.myorganisation.nexify.repository.ProfileRepository;
 import com.myorganisation.nexify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,23 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
     @Override
     public UserResponseDto registerUser(UserRequestDto userRequestDto) {
         User user = mapUserRequestDtoToUser(userRequestDto, new User());
+
+        Profile profile = new Profile();
+
+//        profileRepository.save(profile);
+        user.setProfile(profile);
+        profile.setUser(user);
+
         userRepository.save(user);
+
+//        profile.setUser(user);
+//        profileRepository.save(profile);
 
         return mapUserToUserResponseDto(user);
     }
