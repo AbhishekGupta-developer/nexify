@@ -19,4 +19,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile")
+    private Profile profile;
 }
