@@ -1,5 +1,6 @@
 package com.myorganisation.nexify.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class Profile {
     private String displayName;
     private Date dob;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "profile")
 //    @JoinColumn(name = "user")
     private User user;
