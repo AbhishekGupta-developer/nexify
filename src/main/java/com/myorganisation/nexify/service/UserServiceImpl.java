@@ -1,8 +1,7 @@
 package com.myorganisation.nexify.service;
 
 import com.myorganisation.nexify.dto.request.UserRequestDto;
-import com.myorganisation.nexify.dto.response.GenericResponseDto;
-import com.myorganisation.nexify.dto.response.UserResponseDto;
+import com.myorganisation.nexify.dto.response.*;
 import com.myorganisation.nexify.enums.Gender;
 import com.myorganisation.nexify.model.MetaData;
 import com.myorganisation.nexify.model.Profile;
@@ -173,8 +172,23 @@ public class UserServiceImpl implements UserService{
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setUsername(user.getUsername());
         userResponseDto.setGender(user.getGender());
-        userResponseDto.setProfile(user.getProfile());
-        userResponseDto.setMetaData(user.getMetaData());
+
+        Profile profile = user.getProfile();
+        ProfileResponseDto profileResponseDto = new ProfileResponseDto();
+        profileResponseDto.setId(profile.getId());
+        profileResponseDto.setBio(profile.getBio());
+        profileResponseDto.setAvatarUrl(profile.getAvatarUrl());
+        profileResponseDto.setDisplayName(profile.getDisplayName());
+        profileResponseDto.setDob(profile.getDob());
+
+        userResponseDto.setProfileResponseDto(profileResponseDto);
+
+        MetaData metaData = user.getMetaData();
+        MetaDataResponseDto metaDataResponseDto = new MetaDataResponseDto();
+        metaDataResponseDto.setId(metaData.getId());
+        metaDataResponseDto.setInterestTags(metaData.getInterestTags());
+
+        userResponseDto.setMetaDataResponseDto(metaDataResponseDto);
 
         return userResponseDto;
     }
