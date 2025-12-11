@@ -2,6 +2,11 @@ package com.myorganisation.nexify.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -16,4 +21,14 @@ public class Post {
     private String imageKey;
     private String imageMimeType;
     private Long imageSize;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
 }
