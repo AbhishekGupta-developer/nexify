@@ -10,6 +10,10 @@ import com.myorganisation.nexify.repository.MetaDataRepository;
 import com.myorganisation.nexify.repository.ProfileRepository;
 import com.myorganisation.nexify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -160,6 +164,21 @@ public class UserServiceImpl implements UserService{
         }
 
         return userResponseDtoList;
+    }
+
+    @Override
+    public Page<UserResponseDto> getUserPage(Integer pageIndex, Integer pageSize, String sortBy, String sortOrder) {
+        Sort sort = (sortOrder.equalsIgnoreCase("asc")) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, sort);
+
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        Page<UserResponseDto> userResponseDtoPage = userPage.map(this::mapUserToUserResponseDto);
+
+        return userResponseDtoPage;
     }
 
     // Helper methods
