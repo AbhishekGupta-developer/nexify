@@ -4,8 +4,10 @@ import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
 import com.myorganisation.nexify.enums.Gender;
+import com.myorganisation.nexify.model.User;
 import com.myorganisation.nexify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +64,16 @@ public class UserController {
     @GetMapping("/search/name/{name}/gender/{gender}")
     public ResponseEntity<List<UserResponseDto>> searchUserByNameAndGender(@PathVariable String name, @PathVariable Gender gender, @RequestParam String type) {
         return new ResponseEntity<>(userService.searchByNameAndGender(name, gender, type), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<UserResponseDto>> getUserPage(
+            @RequestParam(defaultValue = "0") Integer pageIndex,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder
+    ) {
+        return new ResponseEntity<>(userService.getUserPage(pageIndex, pageSize, sortBy, sortOrder), HttpStatusCode.valueOf(200));
     }
 
 }
