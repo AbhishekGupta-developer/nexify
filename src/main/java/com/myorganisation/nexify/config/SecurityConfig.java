@@ -43,8 +43,8 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userDetailsService); // up-to-date method
+//        daoAuthenticationProvider.setUserDetailsService(userDetailsService); // deprecated method
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 
         return new ProviderManager(daoAuthenticationProvider);
