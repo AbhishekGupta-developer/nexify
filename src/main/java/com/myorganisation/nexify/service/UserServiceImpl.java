@@ -195,6 +195,7 @@ public class UserServiceImpl implements UserService{
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setUsername(user.getUsername());
         userResponseDto.setGender(user.getGender());
+        userResponseDto.setRole(user.getRole());
 
         Profile profile = user.getProfile();
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
