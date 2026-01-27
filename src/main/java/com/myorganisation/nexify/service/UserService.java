@@ -1,16 +1,17 @@
 package com.myorganisation.nexify.service;
 
+import com.myorganisation.nexify.dto.request.LoginRequestDto;
 import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
 import com.myorganisation.nexify.enums.Gender;
-import com.myorganisation.nexify.model.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface UserService {
     UserResponseDto registerUser(UserRequestDto userRequestDto);
+    GenericResponseDto loginUser(LoginRequestDto loginRequestDto);
     UserResponseDto getUser(Long id);
     List<UserResponseDto> getAllUsers();
     UserResponseDto updateUser(Long id, UserRequestDto userRequestDto);
