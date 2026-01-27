@@ -1,10 +1,10 @@
 package com.myorganisation.nexify.controller;
 
+import com.myorganisation.nexify.dto.request.LoginRequestDto;
 import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
 import com.myorganisation.nexify.enums.Gender;
-import com.myorganisation.nexify.model.User;
 import com.myorganisation.nexify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +24,11 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRequestDto userRequestDto) {
         return new ResponseEntity<>(userService.registerUser(userRequestDto), HttpStatusCode.valueOf(201));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<GenericResponseDto> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
+        return new ResponseEntity<>(userService.loginUser(loginRequestDto), HttpStatusCode.valueOf(200));
     }
 
     @GetMapping("/{id}")
