@@ -1,5 +1,6 @@
 package com.myorganisation.nexify.service;
 
+import com.myorganisation.nexify.dto.request.LoginRequestDto;
 import com.myorganisation.nexify.dto.request.UserRequestDto;
 import com.myorganisation.nexify.dto.response.GenericResponseDto;
 import com.myorganisation.nexify.dto.response.MetaDataResponseDto;
@@ -7,22 +8,27 @@ import com.myorganisation.nexify.dto.response.ProfileResponseDto;
 import com.myorganisation.nexify.dto.response.UserResponseDto;
 import com.myorganisation.nexify.enums.Gender;
 import com.myorganisation.nexify.exception.UserNotFoundException;
+import com.myorganisation.nexify.exception.UsernameOrPasswordIncorrectException;
 import com.myorganisation.nexify.model.MetaData;
 import com.myorganisation.nexify.model.Profile;
 import com.myorganisation.nexify.model.User;
 import com.myorganisation.nexify.repository.MetaDataRepository;
 import com.myorganisation.nexify.repository.ProfileRepository;
 import com.myorganisation.nexify.repository.UserRepository;
+import com.myorganisation.nexify.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -38,6 +44,12 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     public UserResponseDto registerUser(UserRequestDto userRequestDto) {
@@ -65,6 +77,29 @@ public class UserServiceImpl implements UserService{
 //        profileRepository.save(profile);
 
         return mapUserToUserResponseDto(user);
+    }
+
+    @Override
+    public GenericResponseDto loginUser(LoginRequestDto loginRequestDto) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequestDto.getUsername(),
+                            loginRequestDto.getPassword()
+                    )
+            );
+
+            String jwtToken = jwtUtil.generateToken(loginRequestDto.getUsername());
+
+            GenericResponseDto genericResponseDto = new GenericResponseDto();
+            genericResponseDto.setSuccess(true);
+            genericResponseDto.setMessage("User authenticated");
+            genericResponseDto.setDetail(Map.of("jwt", jwtToken));
+
+            return genericResponseDto;
+        } catch(Exception e) {
+            throw new UsernameOrPasswordIncorrectException();
+        }
     }
 
     @Override
