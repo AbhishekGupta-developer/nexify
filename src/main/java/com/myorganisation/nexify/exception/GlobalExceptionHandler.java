@@ -6,8 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.Map;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -28,5 +26,14 @@ public class GlobalExceptionHandler {
         genericResponseDto.setMessage(e.getMessage());
 
         return new ResponseEntity<>(genericResponseDto, HttpStatusCode.valueOf(404));
+    }
+
+    @ExceptionHandler(UsernameOrPasswordIncorrectException.class)
+    public ResponseEntity<GenericResponseDto> handleUsernameOrPasswordIncorrectException(UsernameOrPasswordIncorrectException e) {
+        GenericResponseDto genericResponseDto = new GenericResponseDto();
+        genericResponseDto.setSuccess(false);
+        genericResponseDto.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(genericResponseDto, HttpStatusCode.valueOf(401));
     }
 }
