@@ -43,12 +43,13 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    public boolean validateToken(String username, UserDetails userDetails, String token) {
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    private boolean isTokenExpired(String token) {
-        return getClaims(token).getExpiration().before(new Date());
-    }
+    // NOT REQUIRED
+//    public boolean validateToken(String username, UserDetails userDetails, String token) {
+//        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+//    }
+//
+//    private boolean isTokenExpired(String token) {
+//        return getClaims(token).getExpiration().before(new Date());
+//    }
 
 }
